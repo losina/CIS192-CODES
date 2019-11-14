@@ -1,0 +1,5 @@
+<h1>MENU</h1>
+{% for meal in meals %}
+	<p> {{meal.name}}: {{meal.description}} </p>
+	<p> Vegan: {{meal.vegan}} </p>
+{% endfor %}
