@@ -16,3 +16,7 @@ Follow the prompts to create username and password. Then log in at ```localhost:
 #### Blog Posts
 The main page (splash page) of the blog can be accessed through  ```localhost:8000```
 To see all blog posts, access ```localhost:8000/blog```. Clicking the link to each post leads to individual webpage for each post. 
+
+#### Architecture 
+  ```about``` is the app deals with splash page 
+   ```post``` app deals with displaying a list of all posts and showing an individual post. 
