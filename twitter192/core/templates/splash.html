@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>192 Twitter</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    
+    </head>
+    <body>
+        <div class="header">
+                <a href='/' class="header-a" > 192 TWITTER </a>
+        </div>
+            
+
+
+
+        {% if user.is_authenticated %}
+            <div class="container twitContainer">
+        
+                <form method="POST" action="/">
+                    {% csrf_token %}
+                    <input name="body" class="form-control" style="width:500px" placeholder="What's on your mind?" />
+                    <button type="submit" class="btn btn-dark">Tweet</button>
+                </form>
+
+                <div class="col col-4">
+                    Recent:
+                    <!-- {% for note in notes %}
+                    <h1>{{note.title}}</h1>
+                    <p>{{note.body}}</p>
+                    <a href="/delete?id={{note.id}}">Delete</a>
+                    {% endfor %} -->
+                </div>
+
+                <div class="col col-4">
+                    Hashtags:
+                </div>
+            </div>
+        {% else %}
+            <div class="container twitContainer">
+                Welcome to 192 Twitter. <br>
+                <a href="/accounts"> Log In or Create Account </a>
+            </div>
+        {% endif %}
+
+    </body>
+</html>

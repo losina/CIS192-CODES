@@ -1,0 +1,40 @@
+.twitContainer {
+    margin: 40px 20px;
+
+}
+
+.twitTitle {
+    margin-bottom: 20px;
+}
+
+.form-control.account-form {
+    width: 200px;
+    margin-bottom: 2px;
+}
+
+button {
+    background-color: #66757F;
+}
+
+.header {
+    height: 50px;
+    font-size: 20px;
+    background-color: #66757F;
+    color: white;
+    padding:10px;
+    padding-left:20px;
+    
+}
+
+.header-a {
+    color: white;
+}
+
+.header-a:hover {
+    color: #CCD6DD;
+}
+
+.accountContainer {
+    margin-left: 30px;
+    margin-top: 80px;
+}
