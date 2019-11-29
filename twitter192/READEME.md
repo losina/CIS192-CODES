@@ -9,9 +9,8 @@ python3 manage.py runserver
 ```
 
 
-You can access the Twitter page via ```http://localhost:8000/```
-Click "Log In or Create Account"
-Signing up, you will be redirected to the main splash page of 192 Twitter.
+You can access the Twitter page via ```http://localhost:8000/```. <br/>
+Click "Log In or Create Account". After signing up, you will be redirected to the main splash page of 192 Twitter.
 You can make new tweets with hashtags and delete ones you've created. 
 Clicking on the username of each tweet or the hashtag, you can filter the list of tweets. 
 
