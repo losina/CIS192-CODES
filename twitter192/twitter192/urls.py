@@ -18,7 +18,6 @@ from django.urls import path
 from core.views import splash, accounts, signup_view, login_view, logout_view, like, unlike, delete, profile, hashtag
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('accounts/', accounts, name='accounts'),
     path('login/', login_view, name="login_view"),
     path('logout/', logout_view, name='logout_view'),
