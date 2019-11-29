@@ -15,35 +15,78 @@
     
     </head>
     <body>
-        <div class="header">
-                <a href='/' class="header-a" > 192 TWITTER </a>
-        </div>
+        <nav class="navbar navbar-inverse header">
+                    <div class="container-fluid">
+                      <div class="navbar-header">
+                        <a class="navbar-brand header-a" href="#">192 TWITTER</a>
+                      </div>
+
+                      <ul class="nav navbar-nav navbar-right">
+                        <li>    {% if user.is_authenticated %}
+                                <a href="/logout" class="header-a">Log Out</a>
+                                {% endif %}</li>
+                      </ul>
+                    </div>
+        </nav>
+
+
             
-
-
 
         {% if user.is_authenticated %}
             <div class="container twitContainer">
-        
+    
                 <form method="POST" action="/">
-                    {% csrf_token %}
-                    <input name="body" class="form-control" style="width:500px" placeholder="What's on your mind?" />
-                    <button type="submit" class="btn btn-dark">Tweet</button>
+                    <div class = "row" style="margin-left: 2px">
+                        {% csrf_token %}
+                        <input name="body" class="form-control col-6 tweet-form" placeholder="What's on your mind?" />
+                        <div style="width:5px"></div>
+                        <button type="submit" class="btn btn-dark col-1">Tweet</button>
+                    </div>
+
                 </form>
 
-                <div class="col col-4">
-                    Recent:
-                    <!-- {% for note in notes %}
-                    <h1>{{note.title}}</h1>
-                    <p>{{note.body}}</p>
-                    <a href="/delete?id={{note.id}}">Delete</a>
-                    {% endfor %} -->
-                </div>
+                <div class="row" style="height:20px"></div>
+                <div class = "row tweets-list">
+                        <div class="col col-6">
+                                <h4> Recent Tweets </h4>
+                                {% for t in tweets %}
+                                <div class = "card tw">
+                                    <div class = "card-body">
+                                        <a class = "sm-tw" href="/profile?user={{t.author}}"> {{t.author}} </a> <span style="font-size: 10px;color:dimgrey"> :: {{t.time}} </span> 
+            
+                                        <p class="tweet-body" style="margin-top:5px; margin-bottom:7px">{{t.body}}</p>
+            
+                                        {% if t.like %}
+                                            <a class = "sm-tw" href="/unlike?id={{t.id}}"> <img style="width:25px" src="{% static 'heart-2.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
+                                        {% else %}
+                                            <a class = "sm-tw" href="/like?id={{t.id}}"> <img style="width:25px" src="{% static 'heart.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
+                                        {% endif %}
+            
+                                        {% if user == t.author %}
+                                        <a class = "sm-tw" href="/delete?id={{t.id}}">Delete</a>
+                                        {% endif%}
+                                        
+                                    </div>
+            
+                                </div>
+                                {% endfor %}
+                            </div>
+            
+                            <div class="col col-3">
+                                    <h4> Hashtags </h4>
+                                    <div class = "card tw">
+                                        <div class = "card-body">
+                                                {%for h in hashtags%}
+                                                <a href="/hashtag?name={{h.name}}"> #{{h.name}}</a> 
+                                                <br>
+                                                {%endfor%}
+                                        </div>
+                                    </div>
 
-                <div class="col col-4">
-                    Hashtags:
+                            </div>
+                        </div>
                 </div>
-            </div>
+                
         {% else %}
             <div class="container twitContainer">
                 Welcome to 192 Twitter. <br>

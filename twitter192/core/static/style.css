@@ -1,7 +1,4 @@
-.twitContainer {
-    margin: 40px 20px;
 
-}
 
 .twitTitle {
     margin-bottom: 20px;
@@ -17,14 +14,14 @@ button {
 }
 
 .header {
-    height: 50px;
+    height: 60px;
     font-size: 20px;
     background-color: #66757F;
     color: white;
-    padding:10px;
     padding-left:20px;
-    
 }
+
+
 
 .header-a {
     color: white;
@@ -38,3 +35,16 @@ button {
     margin-left: 30px;
     margin-top: 80px;
 }
+
+.tw {
+    padding: 10px;
+}
+
+.tweets-list {
+    margin-top: 20px;
+}
+
+.card-body{
+    font-size: 20px;
+}
+
