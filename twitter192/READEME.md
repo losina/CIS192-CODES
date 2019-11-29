@@ -16,10 +16,11 @@ You can make new tweets with hashtags and delete ones you've created.
 Clicking on the username of each tweet or the hashtag, you can filter the list of tweets. 
 
 #### Routes Description
-'/login' url takes in username and password and changes the request user to be authenticated.
-'/signup' url takes in username, password and email to create new user.
-'/' POST request for this url creates new tweet
-'/delete?=id' takes in the tweet id and removes the tweet 
-'/like?=id' or '/unlike?=id' takes in the tweet id and creates or removes a "Like" object connecting the user and the tweet.
-'/profile?=username' takes in the username and displays only the tweets made by the certain user. 
-'/hashtag?=hashtag' takes in the hashtag and displays only the tweets with that tags
+```/login``` url takes in username and password and changes the request user to be authenticated.
+
+```/signup``` url takes in username, password and email to create new user.
+```/``` POST request for this url creates new tweet
+```/delete?=id``` takes in the tweet id and removes the tweet 
+```/like?=id``` or ```/unlike?=id``` takes in the tweet id and creates or removes a "Like" object connecting the user and the tweet.
+```/profile?=username``` takes in the username and displays only the tweets made by the certain user. 
+```/hashtag?=hashtag``` takes in the hashtag and displays only the tweets with that tags
