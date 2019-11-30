@@ -8,7 +8,7 @@ def splash(request):
     # create post
     if request.method == "POST":
         body = request.POST["body"]
-        hashtags = re.findall(r"#(\w+)", body)
+        hashtags = set(re.findall(r"#(\w+)", body))
         tw = Tweet.objects.create(body=body, author=request.user)
         for word in hashtags:
             hashtag, created = HashTag.objects.get_or_create(name=word)
