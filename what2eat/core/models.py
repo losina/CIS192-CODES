@@ -24,5 +24,7 @@ class CategoryList(models.Model):
     
 class List(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    restaurant =  models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     category =  models.ForeignKey(Category, on_delete=models.CASCADE)
+    restaurant =  models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    class Meta:
+       unique_together = ("user", "category")
