@@ -1,0 +1,28 @@
+a, .logo {
+    color: #ef8354;
+}
+
+body {
+    background: #1c3c54;
+    color: #ffffff;
+}
+a:hover {
+    color: #ffffff;
+}
+
+.accountContainer {
+    padding-top:20px;
+}
+
+.active-search input[type=text] {
+    border-color: #1c3c54;
+    border-bottom: 1px solid #ef8354;
+    box-shadow: 0 1px 0 0 #f48fb1;
+    background-color: #1c3c54;
+    width: 200px;
+    color: #ffffff;
+}
+
+.navbar-custom {
+    background-color: #1c3c54;
+}

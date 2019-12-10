@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>What2Eat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    
+    </head>
+    <body>
+        <nav class="navbar  navbar-inverse header ">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                    <a class="navbar-brand header-a" href="#"><img style="width:40px" src="{% static 'what2eat.png' %}"> What2Eat </a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                    <li>    {% if user.is_authenticated %}
+                            <a href="/logout" class="header-a">Log Out</a>
+                            {% endif %}</li>
+                    </ul>
+                </div>
+        </nav>
+
+
+        {% if user.is_authenticated %}
+
+
+        <div class="container" style="margin-left:30px">
+            <div style="margin-top: 10px;width:80%">
+                <h3 class="logo"> Hi, {{user}} </h3>
+                <span class='logo'> All Categories Saved </span>
+                <br> 
+                {% for c in cl%}
+                 #{{c}}
+                {% endfor %}
+                
+            </div>
+            <hr style="border-top: 1px solid #ffffff;">
+            <!-- Search Bar -->
+            <span class='logo'>Can't decide? Use <a href ='/selection'> selection mode </a></span>
+            <hr style="border-top: 1px solid #ffffff;">
+            <form class="form-inline md-form form-sm active-search mt-2" style="margin:0px; padding:0px" method="POST" action="/search/">
+                <span class='logo'> Find new restaurants</span>
+                {% csrf_token %}
+                <input class="form-control form-control-sm ml-3" style="margin:0px; padding:0px" name="searchKey"  type="text" placeholder="Search"
+                    aria-label="Search">
+            </form>
+            <br>
+            <div class="card text-center" >
+                    <div class="card-header navbar-custom">
+                        <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Active</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Cras justo odio</li>
+                                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                                    <li class="list-group-item">Morbi leo risus</li>
+                                    <li class="list-group-item">Porta ac consectetur ac</li>
+                                    <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                    </div>
+                </div>
+
+
+
+
+        </div>
+
+        {% else %}
+            <div class="container" style="margin-left:30px">
+                
+                <div style="height:120px"> 
+                </div>
+                
+                <h2 class="logo">What2Eat</h2>
+
+                
+                Can't decide what to have for dinner today? <br>
+                What2Eat helps you decide!<br>
+                *currently available only for Philadelphia residents.
+                <br>
+                <br>
+                <a href="/accounts"> Log In or Create Account </a>
+            </div>
+        {% endif %}
+
+    </body>
+</html>

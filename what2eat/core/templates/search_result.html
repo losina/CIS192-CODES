@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>What2Eat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse header">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                    <a class="navbar-brand header-a" href="/"><img style="width:40px" src="{% static 'what2eat.png' %}"> What2Eat </a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                    <li>    {% if user.is_authenticated %}
+                            <a href="/logout" class="header-a">Log Out</a>
+                            {% endif %}</li>
+                    </ul>
+                </div>
+        </nav>
+
+
+        {% if user.is_authenticated %}
+        
+        <div class="container" style="margin-left:30px">
+            Search result for "{{keyword}}"
+            
+            <br>
+            <div class="card-columns">
+            {% for r in result %}
+            
+            <!-- sorted.append({'name': r['name'], 'rating': r['rating'], 'categories': r['categories'], 'url':r['url'], 'address': address}) -->
+
+            <div class="card" style="width: 18rem;">
+                    <div class="card-body" style="height: 15rem;">
+                      <h5 class="card-title" style="color:#1c3c54">{{r.name}}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">Rating: {{r.rating}} <br>
+                          {% for c in r.categories %} #{{c.alias}} {% endfor %}</h6>
+                      <p class="card-text" style="color:#1c3c54">{{r.address}} </p>
+                      <a href="{{r.url}}" class="card-link"> See Yelp Reviews</a>
+
+                      <form class="form-inline md-form form-sm mt-2" method="POST" action="/add/">
+                        {% csrf_token %}
+                        <input  type="hidden" name="rating" value="{{r.rating}}">
+                        <input  type="hidden" name="name" value="{{r.name}}">
+                        <input  type="hidden" name="rest_id" value="{{r.id}}">
+                        <input  type="hidden" name="categories" value="{{r.categories}}">
+                        <input  type="hidden" name="url" value="{{r.url}}">
+                        <input  type="hidden" name="address" value="{{r.address}}">
+                        <button style="border: none; background-color:transparent; color: #ef8354" type="submit" >Add to your list</button>
+                        </form>
+                      <!-- {% if t.like %}
+                      <a class = "sm-tw" href="/unlike?id={{t.id}}"> <img style="width:64px" src="{% static 'heart-2.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
+                        {% else %}
+                      <a class = "sm-tw" href="/like?id={{t.id}}"> <img style="width:25px" src="{% static 'heart.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
+                  {% endif %} -->
+
+                    </div>
+            </div>
+            {% endfor %}
+            </div>
+            <a href="/">Back to Main Page</a>
+        </div>
+        {% endif %}
+
+    </body>
+</html>

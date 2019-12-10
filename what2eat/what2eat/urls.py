@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from core.views import splash, accounts, signup_view, login_view, logout_view, search_view, add
+from core.selection import selection_user,selection_cat, selection_result
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', accounts, name='accounts'),
+    path('login/', login_view, name="login_view"),
+    path('logout/', logout_view, name='logout_view'),
+    path('signup/', signup_view, name='signup_view'),
+    path('search/', search_view, name='search_view'),
+    path('selection/', selection_user, name='selection_user'),
+    path('selectCat/', selection_cat, name='selection_cat'),
+    path('selectResult/', selection_result, name='selection_result'),
+    path('add/', add, name='add'),
+    path('', splash, name='splash' )
 ]

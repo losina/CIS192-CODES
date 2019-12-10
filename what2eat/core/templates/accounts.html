@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>What2Eat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse header">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                    <a class="navbar-brand header-a" href="/"><img style="width:40px" src="{% static 'what2eat.png' %}"> What2Eat </a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                    <li>    {% if user.is_authenticated %}
+                            <a href="/logout" class="header-a">Log Out</a>
+                            {% endif %}</li>
+                    </ul>
+                </div>
+        </nav>
+
+      <div class="container accountContainer" style="margin-top:20px">
+        <div class="row">
+          <div class="col col-md-4">
+              <h2>Log in</h2>
+              <form method="POST" action="/login/">
+                  {% csrf_token %}
+                  <input name="username" class="form-control account-form" style="width:200px" placeholder="username" />
+                  <input name="password" class="form-control account-form" style="width:200px" placeholder="password" type="password" />
+                  <button type="submit" class="btn btn-dark" style="background-color:#1c3c54;">Log In</button>
+              </form>
+          </div>
+
+          <div class = "col col-md-4">
+              <h2>Sign up</h2>
+              <form method="POST" action="/signup/">
+                  {% csrf_token %}
+                  <input name="username" class="form-control account-form" style="width:200px" placeholder="username" />
+                  <input name="email" class="form-control account-form" style="width:200px" placeholder="email" />
+                  <input name="password" class="form-control account-form" style="width:200px" placeholder="password" type="password" />
+                  <button type="submit" class="btn btn-dark" style="background-color:#1c3c54;">Create Account</button>
+              </form>
+          </div>
+        </div>
+      </div>
+
+        
+
+    </body>
+</html>
