@@ -14,6 +14,9 @@ python3 manage.py runserver
 Access the website via ```localhost:8000```
 Signup/login to use the site!
 
+***Search new restaurants***
+If you're logged in, you can see search box on the main page. Type in the keyword and it will show you top restuarants in Philadelphia that fit your keyword. You can save the restaurants to your list, which is also displayed on the main page. 
+
 **Selection Mode**
 1. Select your company 
 : select users from the list of friends that you're going to have dinner with. 
@@ -21,6 +24,7 @@ Signup/login to use the site!
 : remove any category that you certainly don't want to have today. 
 3. Selection Result
 : What2East gives you few suggestions based on the saved restaurants you and your friends have. It will also provide few more recommendations from the custom categories that were highly rated on Yelp.
+
 
 ### Code Structure 
 The project utilizes Django, Yelp API, django-friendship module and few more basic libraries/packages. 
