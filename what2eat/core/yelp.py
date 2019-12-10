@@ -1,8 +1,8 @@
 import requests
 import json
 import random
-
-api_key='-4s2dP9Rl9T0e30DOmljIoReMpCfCx4UWxAGPJBkXFEuJy-dzf-iwClrVnPk0s1Mb63a9pFAC75GC6xrX4dvlT0GL6_SIrbt90dwA-X38IodBSxUj79ZtdNpfN3uXXYx'
+YOURKEYHERE = "dddd"
+api_key = YOURKEYHERE
 url = 'https://api.yelp.com/v3/businesses/search'
 headers = {'Authorization': 'Bearer %s' % api_key}
 
