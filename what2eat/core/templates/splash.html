@@ -50,28 +50,31 @@
             <form class="form-inline md-form form-sm active-search mt-2" style="margin:0px; padding:0px" method="POST" action="/search/">
                 <span class='logo'> Find new restaurants</span>
                 {% csrf_token %}
+                <br>
                 <input class="form-control form-control-sm ml-3" style="margin:0px; padding:0px" name="searchKey"  type="text" placeholder="Search"
                     aria-label="Search">
             </form>
             <br>
-            <div class="card text-center" >
+            <div class="card " >
                     <div class="card-header navbar-custom">
                         <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Active</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <a class="nav-link active" href="#">Saved Restaurants</a>
                         </li>
                         </ul>
                     </div>
                     <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Morbi leo risus</li>
-                                    <li class="list-group-item">Porta ac consectetur ac</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
+                                    {% for r in rl%}
+                                    <li class="list-group-item">
+                                    <h5 style="color:#1c3c54"> <a style="color:#1c3c54" href="{{r.url}}">{{r.name}}</a> <span class="card-subtitle mb-2 text-muted"> ({{r.rating}}) </span> </h5> 
+                                    <span class="text-muted">{% for c in r.categories %} #{{c}} {% endfor %}</span>
+                                    <p class="card-text" style="color:#1c3c54">{{r.address}} </p>
+                                    <a class="text-right" href="/remove?id={{r.id}}" style="text-align: right;"> remove </a>
+
+                                    </li>
+                                    {% endfor %}
+
                             </ul>
                     </div>
                 </div>

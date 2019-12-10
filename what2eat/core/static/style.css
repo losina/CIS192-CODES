@@ -26,3 +26,8 @@ a:hover {
 .navbar-custom {
     background-color: #1c3c54;
 }
+
+
+.mainlink:hover {
+    color:#ef8354;
+}

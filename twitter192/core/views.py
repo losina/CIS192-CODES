@@ -2,7 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from core.models import Tweet, HashTag, Like
+
+import requests
+import json
 import re
+
+#set up yelp api 
+api_key='-4s2dP9Rl9T0e30DOmljIoReMpCfCx4UWxAGPJBkXFEuJy-dzf-iwClrVnPk0s1Mb63a9pFAC75GC6xrX4dvlT0GL6_SIrbt90dwA-X38IodBSxUj79ZtdNpfN3uXXYx'
+headers = {'Authorization': 'Bearer %s' % api_key}
+ 
 # Create your views here.
 def splash(request):
     # create post

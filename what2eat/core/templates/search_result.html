@@ -48,7 +48,7 @@
                           {% for c in r.categories %} #{{c.alias}} {% endfor %}</h6>
                       <p class="card-text" style="color:#1c3c54">{{r.address}} </p>
                       <a href="{{r.url}}" class="card-link"> See Yelp Reviews</a>
-
+                        {%if not r.seen %}
                       <form class="form-inline md-form form-sm mt-2" method="POST" action="/add/">
                         {% csrf_token %}
                         <input  type="hidden" name="rating" value="{{r.rating}}">
@@ -59,6 +59,7 @@
                         <input  type="hidden" name="address" value="{{r.address}}">
                         <button style="border: none; background-color:transparent; color: #ef8354" type="submit" >Add to your list</button>
                         </form>
+                        {% endif %}
                       <!-- {% if t.like %}
                       <a class = "sm-tw" href="/unlike?id={{t.id}}"> <img style="width:64px" src="{% static 'heart-2.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
                         {% else %}

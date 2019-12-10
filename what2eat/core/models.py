@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     address = models.TextField()
 
 
+
 class Category(models.Model):
     name = models.CharField(max_length=20, unique=True)
     restaurant = models.ManyToManyField(Restaurant)
@@ -24,3 +25,4 @@ class CategoryList(models.Model):
 class List(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     restaurant =  models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    category =  models.ForeignKey(Category, on_delete=models.CASCADE)

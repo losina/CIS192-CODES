@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from core.models import Restaurant, Category, List, CategoryList
-
+from core.yelp import recommend
 def selection_user(request):
     users = User.objects.all()
     users = sorted([u.get_username() for u in users if u != request.user])
@@ -19,17 +19,21 @@ def selection_result(request):
     print('categories', categories)
     users = eval(request.POST.get('users'))
     result = []
+    redun = []
     for u in users:
         u = User.objects.get(username=u)
-
         rl = List.objects.filter(user=u)
-        print('rl', rl)
         for r in rl:
             r = r.restaurant
-            c = Category.objects.filter(restaurant=r)
-            for cc in c:
-                if cc.name in categories:
-                    result.append(r)
-                    break
-    print(result)
-    return render(request, 'selection_result.html')
+            if r not in result:
+                c = Category.objects.filter(restaurant=r)
+                for cc in c:
+                    if cc.name in categories:
+                        result.append(r)
+                        redun.append(r.name)
+                        break
+    result = sorted(result, key=lambda x: x.rating, reverse=True)
+    recommendation = recommend(categories, redun)
+    if len(result) > 5:
+        result = result[:5]
+    return render(request, 'selection_result.html', {"result": result, "recomm": recommendation})

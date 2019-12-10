@@ -57,7 +57,7 @@
                                         <p class="tweet-body" style="margin-top:5px; margin-bottom:7px">{{t.body}}</p>
             
                                         {% if t.like %}
-                                            <a class = "sm-tw" href="/unlike?id={{t.id}}"> <img style="width:25px" src="{% static 'heart-2.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
+                                            <a class = "sm-tw" href="/unlike?id={{t.id}}"> <img style="width:64px" src="{% static 'heart-2.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
                                         {% else %}
                                             <a class = "sm-tw" href="/like?id={{t.id}}"> <img style="width:25px" src="{% static 'heart.png' %}" > </a> <span style="font-size: 10px; color:dimgrey">({{t.like_num}} Likes) </span> 
                                         {% endif %}
