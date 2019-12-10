@@ -12,6 +12,7 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 Access the website via ```localhost:8000```
+Signup/login to use the site!
 
 **Selection Mode**
 1. Select your company 
