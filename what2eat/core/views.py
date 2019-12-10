@@ -5,6 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from core.models import Restaurant, Category, List, CategoryList
 from core.yelp import search
 
+#import necessary models for friendship module 
+from friendship.models import Friend, Follow, Block
+from friendship.models import FriendshipRequest
+
+# fetch user data for the main page 
 def splash(request):
     if request.user.is_authenticated:
         try:
@@ -27,9 +32,11 @@ def splash(request):
     else:
         return render(request, "splash.html")
 
+# render accounts page for login/signup
 def accounts(request):
     return render(request, "accounts.html", {})
 
+# display search result of keyword in Yelp database
 def search_view(request):
     if request.method == "POST":
         keyword = request.POST['searchKey']
@@ -48,20 +55,21 @@ def search_view(request):
     return render(request, "search_result.html", {'keyword': keyword, 'result':[]}) 
 
 
+# remove saved restaurant from the list 
 def remove(request):
     r = Restaurant.objects.get(id=request.GET['id'])
-    categories = Category.objects.filter(restaurant=r)
-    for c in categories:
-        l  = List.objects.get(user=request.user, restaurant=r, category=c)
-
+    l  = List.objects.filter(user=request.user, restaurant=r)
+    # if the restaurant is the only associated restaurant with a category, remove that as well
+    for ls in l:
+        c = ls.category
         if List.objects.filter(user=request.user, category=c).count() == 1:
-            
             cl = CategoryList.objects.get(user=request.user, category=c)
-            print(cl)
             cl.delete()
-        l.delete()
+        ls.delete()
+
     return redirect('/')
 
+# save a restaurant to the list
 def add(request):
     if request.method == "POST":
         idtmp = request.POST.get('rest_id')
@@ -92,6 +100,7 @@ def add(request):
             l.save()
     return redirect('/')
 
+# django functionality for login 
 def login_view(request):
     if request.method == "POST":
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -100,6 +109,7 @@ def login_view(request):
             return redirect("/")
     return render(request, 'accounts.html', {})
 
+# django functionality for signup 
 def signup_view(request):
     if request.method == "POST":
         user = User.objects.create_user(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'])
@@ -107,6 +117,45 @@ def signup_view(request):
         return redirect('/')
     return render(request, 'accounts.html', {})
 
+# django functionality for logout
 def logout_view(request):
     logout(request)
     return redirect("/login")
+
+#
+#
+#
+# Friendship Functionalities 
+
+#display friends page to manage friend requests 
+def friends(request):
+    friend_list = [f.username for f in Friend.objects.friends(request.user)]
+    new_requests = Friend.objects.unread_requests(user=request.user)
+    users = User.objects.all()
+    users = sorted([u.get_username() for u in users if u != request.user and u.get_username() not in friend_list])
+
+    return render(request, 'friends.html', {'friends': friend_list, 'requests':new_requests,'users':users})
+
+#send friend request 
+def friend_request(request):
+    if request.method == "POST":
+        friendname= request.POST['friendname']
+        other_user = User.objects.get(username=friendname)
+        try: 
+            Friend.objects.add_friend(
+            request.user,                              
+            other_user,                                 
+            message='Hi! I would like to add you to my friend list') 
+        except:
+            return redirect('/friends')
+    return redirect('/friends')
+
+# accept friend request
+def accept_request(request):
+    if request.method == "POST":
+        req = request.POST.get('friendRequest')
+        user = User.objects.get(username=req).id
+        friend_request = FriendshipRequest.objects.filter(from_user=user)
+        for f in friend_request:
+            f.accept()
+    return redirect('/friends')

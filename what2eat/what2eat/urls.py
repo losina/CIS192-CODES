@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import splash, accounts, signup_view, login_view, logout_view, search_view, add, remove 
+from django.conf.urls import include, url
+from core.views import splash, accounts, signup_view, login_view, logout_view, search_view, add, remove, friends, friend_request,accept_request
 from core.selection import selection_user,selection_cat, selection_result
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,9 @@ urlpatterns = [
     path('selectResult/', selection_result, name='selection_result'),
     path('remove/', remove, name='remove'),
     path('add/', add, name='add'),
+    path('friends/addFriend/', friend_request, name='friend_request'),
+    path('friends/acceptRequest/', accept_request, name='accept_request'),
+    path('friends/', friends, name='friends'),
+
     path('', splash, name='splash' )
 ]

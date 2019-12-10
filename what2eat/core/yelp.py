@@ -3,18 +3,28 @@ import json
 import random
 
 api_key='-4s2dP9Rl9T0e30DOmljIoReMpCfCx4UWxAGPJBkXFEuJy-dzf-iwClrVnPk0s1Mb63a9pFAC75GC6xrX4dvlT0GL6_SIrbt90dwA-X38IodBSxUj79ZtdNpfN3uXXYx'
+url = 'https://api.yelp.com/v3/businesses/search'
 headers = {'Authorization': 'Bearer %s' % api_key}
 
-url='https://api.yelp.com/v3/businesses/search'
-params = {'term':'input','location':'Philadelphia','sort_by':'rating', 'limit':9, 'categories': 'restaurants'}
+# class that defines parameters for yelp api search 
+class YelpAPIManager():
+    params = {'location':'Philadelphia','sort_by':'rating', 'categories': 'restaurants'}
+    def __init__(self, term, limit):
+        self.params['term'] = term
+        self.params['limit'] = limit
+    def get(self):
+        result = requests.get(url, params=self.params, headers=headers)
+        if result.status_code == 200:
+            return json.loads(result.text)
+        else:
+            return {}
 
-
+# get Yelp search result based on the keyword
 def search(keyword) :
-    params['term'] = keyword
-    req=requests.get(url, params=params, headers=headers)
+    api = YelpAPIManager(keyword, 9)
+    result = api.get()
 
-    if req.status_code == 200:
-        result = json.loads(req.text)
+    if len(result) != 0:
         final = []
         for r in result['businesses']:
             a = r["location"]
@@ -25,17 +35,21 @@ def search(keyword) :
         return sorted(final, key=lambda x: x['rating'], reverse=True)
     else:
         return []
+    
+# get few extra recommendations at the end of selection mode
+# remove any search result that is already in the list
 def recommend(categories, result):
     if len(categories) < 3:
         categories = random.choices(categories, k=3)
-    print(result)
+
     final = []
     final_names = []
     for cat in categories:
-        params2 = {'term': cat,'location':'Philadelphia','sort_by':'rating', 'limit':2, 'categories': 'restaurants'}
-        req=requests.get(url, params=params2, headers=headers)
-        if req.status_code == 200:
-            api_result = json.loads(req.text)
+        api = YelpAPIManager(cat, 2)
+        api_result = api.get()
+ 
+        if len(api_result) != 0:
+            
             for r in api_result['businesses']:
                 name = r['name']
                 print("-----", final, result)

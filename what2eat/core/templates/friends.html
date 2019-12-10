@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>What2Eat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    
+    
+    </head>
+    <body>
+        <nav class="navbar  navbar-inverse header ">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                    <a class="navbar-brand header-a" href="/"><img style="width:40px" src="{% static 'what2eat.png' %}"> What2Eat </a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                            {% if user.is_authenticated %}
+                    <li>   
+                            <a href="/friends" class="header-a">Manage Friends</a>
+                    </li>
+                    <li>   
+                            <a href="/logout" class="header-a">Log Out</a>
+                    </li>
+                            {% endif %}
+                    </ul>
+                </div>
+        </nav>
+
+
+        {% if user.is_authenticated %}
+
+
+        <div class="container" style="margin-left:30px">
+            <div style="margin-top: 10px;width:80%">
+                <h3 class="logo"> Manage Friends </h3>
+                <br>
+            <div class="card " >
+                    <div class="card-header navbar-custom">
+                        <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Friend List</a>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                    {% for f in friends%}
+                                    <li class="list-group-item">
+                                    <h5 style="color:#1c3c54"> {{f}}</a> 
+                                    </li>
+                                    {% endfor %}
+
+                            </ul>
+                    </div>
+
+            </div>
+            <br> 
+            <div class="card " >
+                    <div class="card-header navbar-custom">
+                        <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Friend Request</a>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                    {% for r in requests%}
+                                    <form method="POST" action="/friends/acceptRequest/">
+                                        {% csrf_token %}
+                                        <input style="color: #1c3c54;" type="checkbox" name="friendRequest" value="{{r.from_user}}"> <span style="color: #1c3c54;">{{r.from_user}} </span><br>
+                                        <button style="border: none; background-color:transparent; color: #ef8354" type="submit" >Accept Request</button>
+                                    </form>
+                                    {% endfor %}
+
+
+                            </ul>
+                    </div>
+
+            </div>
+            <br> 
+            <div class="card " >
+                    <div class="card-header navbar-custom">
+                        <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                                <a class="nav-link active" href="#">Make Request</a>
+                         </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                    
+                                    {% for u in users%}
+                                    <form method="POST" action="/friends/addFriend/">
+                                        {% csrf_token %}
+                                        <input style="color: #1c3c54;" type="checkbox" name="friendname" value="{{u}}"><span style="color: #1c3c54;">{{u}} </span><br>
+                                        <button style="border: none; background-color:transparent; color: #ef8354" type="submit" >Make Request</button>
+                                    </form>
+                                    {% endfor %}
+                            </ul>
+                    </div>
+
+            </div>
+
+
+        </div>
+
+        {% else %}
+            <div class="container" style="margin-left:30px">
+                
+                <div style="height:120px"> 
+                </div>
+                
+                <a href="/accounts"> Log in to use this page</a>
+            </div>
+        {% endif %}
+
+    </body>
+</html>

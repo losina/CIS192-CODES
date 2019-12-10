@@ -22,9 +22,14 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
-                    <li>    {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
+                    <li>   
+                            <a href="/friends" class="header-a">Manage Friends</a>
+                    </li>
+                    <li>   
                             <a href="/logout" class="header-a">Log Out</a>
-                            {% endif %}</li>
+                    </li>
+                            {% endif %}
                     </ul>
                 </div>
         </nav>

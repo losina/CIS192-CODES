@@ -4,11 +4,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from core.models import Restaurant, Category, List, CategoryList
 from core.yelp import recommend
+
+from friendship.models import Friend, Follow, Block
+from friendship.models import FriendshipRequest
+
+# show all list of friends in the first step of selection mode 
 def selection_user(request):
-    users = User.objects.all()
-    users = sorted([u.get_username() for u in users if u != request.user])
+    users = friend_list = [f.username for f in Friend.objects.friends(request.user)]
     return render(request, 'selection_user.html', {'users': users})
 
+# show all categories saved by different users in the second step of selection mode  
 def selection_cat(request):
     users = request.POST.getlist('user')
     users.append(request.user.username)
@@ -24,6 +29,7 @@ def selection_cat(request):
 
     return render(request, 'selection_category.html', {'categories': sorted(categories), 'users':users })
 
+# show the top 5 result of recommendation 
 def selection_result(request):
     categories = request.POST.getlist('category')
     print('categories', categories)
