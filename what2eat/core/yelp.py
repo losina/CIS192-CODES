@@ -15,14 +15,14 @@ def search(keyword) :
 
     if req.status_code == 200:
         result = json.loads(req.text)
-        sorted = []
+        final = []
         for r in result['businesses']:
             a = r["location"]
             c = [c['alias'] for c in r['categories']]
             categories = c if len(c) < 3 else c[:3]
             address = " ".join([a["address1"], a['city']])
-            sorted.append({'id': r['id'], 'name': r['name'], 'rating': r['rating'], 'categories': categories, 'url':r['url'], 'address': address})
-        return sorted
+            final.append({'id': r['id'], 'name': r['name'], 'rating': r['rating'], 'categories': categories, 'url':r['url'], 'address': address})
+        return sorted(final, key=lambda x: x['rating'], reverse=True)
     else:
         return []
 def recommend(categories, result):

@@ -10,9 +10,19 @@ def selection_user(request):
     return render(request, 'selection_user.html', {'users': users})
 
 def selection_cat(request):
-    categories = sorted([c.name for c in Category.objects.all()])
+    users = request.POST.getlist('user')
+    users.append(request.user.username)
+    categories = []
+    for u in users:
+        u = User.objects.get(username=u)
+        print(u)
+        cl = List.objects.filter(user=u)
+        print(cl)
+        for c in cl:
+            if c.category.name not in categories:
+                categories.append(c.category.name)
 
-    return render(request, 'selection_category.html', {'categories': categories, 'users':request.POST.getlist('user') })
+    return render(request, 'selection_category.html', {'categories': sorted(categories), 'users':users })
 
 def selection_result(request):
     categories = request.POST.getlist('category')

@@ -45,7 +45,7 @@
                     <div class="card-body" style="height: 15rem;">
                       <h5 class="card-title" style="color:#1c3c54">{{r.name}}</h5>
                       <h6 class="card-subtitle mb-2 text-muted">Rating: {{r.rating}} <br>
-                          {% for c in r.categories %} #{{c.alias}} {% endfor %}</h6>
+                          {% for c in r.categories %} #{{c}} {% endfor %}</h6>
                       <p class="card-text" style="color:#1c3c54">{{r.address}} </p>
                       <a href="{{r.url}}" class="card-link"> See Yelp Reviews</a>
                         {%if not r.seen %}

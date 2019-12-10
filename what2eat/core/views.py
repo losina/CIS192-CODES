@@ -6,23 +6,26 @@ from core.models import Restaurant, Category, List, CategoryList
 from core.yelp import search
 
 def splash(request):
-    try:
-        cl = CategoryList.objects.filter(user=request.user)
-    except CategoryList.DoesNotExist:
-        cl = []
-    try: 
-        rl_org = List.objects.filter(user=request.user)
-        rl = [x.restaurant for x in rl_org]
-        rll = [x.restaurant.__dict__ for x in rl_org]
-        for r, mod in zip(rl, rll) :
-            c = Category.objects.filter(restaurant=r)
-            c = [x.name for x in c]
-            mod['categories'] = c
-    except List.DoesNotExist:
-        rl = []
-    
-    cl = [x.category.name for x in cl]
-    return render(request, "splash.html", {"cl": cl, "rl": rll})
+    if request.user.is_authenticated:
+        try:
+            cl = CategoryList.objects.filter(user=request.user)
+        except CategoryList.DoesNotExist:
+            cl = []
+        try: 
+            rl_org = List.objects.filter(user=request.user)
+            rl_org = list(set([x.restaurant for x in rl_org]))
+            rll = [x.__dict__ for x in rl_org]
+            for r, mod in  zip(rl_org, rll):
+                c = Category.objects.filter(restaurant=r)
+                c = [x.name for x in c]
+                mod['categories'] = c
+        except List.DoesNotExist:
+            rll = []
+
+        cl = [x.category.name for x in cl]
+        return render(request, "splash.html", {"cl": cl, "rl": rll})
+    else:
+        return render(request, "splash.html")
 
 def accounts(request):
     return render(request, "accounts.html", {})
@@ -47,11 +50,14 @@ def search_view(request):
 
 def remove(request):
     r = Restaurant.objects.get(id=request.GET['id'])
-    categories = Category.filter(restaurant=r)
+    categories = Category.objects.filter(restaurant=r)
     for c in categories:
         l  = List.objects.get(user=request.user, restaurant=r, category=c)
-        if List.objects.filter(user=request.user, category=c).count == 1:
-            cl = CategoryList.get(user=request.user, category=c)
+
+        if List.objects.filter(user=request.user, category=c).count() == 1:
+            
+            cl = CategoryList.objects.get(user=request.user, category=c)
+            print(cl)
             cl.delete()
         l.delete()
     return redirect('/')
@@ -64,8 +70,6 @@ def add(request):
         try:
             r =  Restaurant.objects.get(id=idtmp)
         except Restaurant.DoesNotExist:
-            r = None  
-        if not r:
             r = Restaurant.objects.create(id=idtmp, name=request.POST.get('name'), rating=request.POST.get('rating'), url=request.POST.get('url'), address=request.POST.get('address'))
             for c in categories:
                 hashtag, created = Category.objects.get_or_create(name=c)
